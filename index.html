@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Timer with Confirmation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 10%;
+    }
+    #timer {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    #confirmation {
+      display: none;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Countdown Timer</h1>
+  <div id="timer">01:00:00</div>
+  <div id="confirmation">
+    <button onclick="showMessage()">Are you sure?</button>
+  </div>
+
+  <script>
+    let timeLeft = 3600; // 1 hour in seconds
+    const timerElement = document.getElementById("timer");
+    const confirmationElement = document.getElementById("confirmation");
+
+    // Countdown timer logic
+    const countdown = setInterval(() => {
+      timerElement.textContent = formatTime(timeLeft);
+
+      if (timeLeft <= 0) {
+        clearInterval(countdown);
+        timerElement.style.display = "none";
+        confirmationElement.style.display = "block";
+      } else {
+        timeLeft--;
+      }
+    }, 1000);
+
+    // Function to format seconds as HH:MM:SS
+    const formatTime = (seconds) => {
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      const secs = seconds % 60;
+
+      return [
+        hours.toString().padStart(2, '0'),
+        minutes.toString().padStart(2, '0'),
+        secs.toString().padStart(2, '0')
+      ].join(":");
+    };
+
+    // Function to show the message when the button is clicked
+    const showMessage = () => {
+      const messageElement = document.createElement("div");
+      messageElement.textContent = "Time is up!";
+      messageElement.style.fontSize = "1.5rem";
+      messageElement.style.color = "green";
+      document.body.appendChild(messageElement);
+      confirmationElement.style.display = "none";
+    };
+  </script>
+</body>
+</html>
